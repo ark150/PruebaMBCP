@@ -62,7 +62,6 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         jLabel1 = new javax.swing.JLabel();
         btnEnviar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        txtProceso = new javax.swing.JTextField();
         txtMensaje = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -79,6 +78,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         comboMensajes = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtBuffer = new javax.swing.JTextArea();
+        cbxProceso = new javax.swing.JComboBox<>();
 
         jLabel8.setText("jLabel8");
 
@@ -133,6 +133,8 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         txtBuffer.setRows(5);
         jScrollPane3.setViewportView(txtBuffer);
 
+        cbxProceso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,8 +157,8 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel1)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtProceso, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
+                                    .addComponent(cbxProceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(27, 27, 27)
                                     .addComponent(jLabel5)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtPuertoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,10 +194,10 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtProceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(iniciarHilo)
                     .addComponent(jLabel5)
-                    .addComponent(txtPuertoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPuertoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxProceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,28 +244,17 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         enviarMensaje();
         hm.clear();
         ci.clear();
-//        String cadenaTuplas="";
-//        for (Mensaje mensajesCreado : mensajesCreados) {
-//            //System.out.println(mensajesCreado.toString());
-//            List<Tuplas> auxTuplas = mensajesCreado.getVector();
-//            
-//            for (Tuplas auxTupla : auxTuplas) {
-//                //cadenaTuplas+=auxTupla.toString();
-//                cadenaTuplas=cadenaTuplas+auxTupla.toString();
-//                System.out.println(auxTupla);
-//            }
-//            System.out.println(mensajesCreado.toString()+cadenaTuplas+"}");
-//        }
- 
+        txtCI.setText("");
+
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void iniciarHiloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarHiloActionPerformed
         // TODO add your handling code here:
-        proceso=Integer.parseInt(txtProceso.getText());
+        proceso=cbxProceso.getSelectedIndex();
         hilo = new Thread(this);
         hilo.start();
         txtPuertoSeleccionado.setEnabled(false);
-        txtProceso.setEnabled(false);
+        cbxProceso.setEnabled(false);
         procesoHilo= new Proceso(proceso);
         
     }//GEN-LAST:event_iniciarHiloActionPerformed
@@ -274,6 +265,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         comboMensajes.removeAllItems();
         comboMensajes.addItem("Seleccione un mensaje");
         d[proceso]++;
+        procesoHilo.sumarVector(proceso);
         mensajesCreados.add(contruirMensaje());
         String cadenaTuplas="";
         for (Mensaje mensajesCreado : mensajesCreados) {
@@ -283,11 +275,11 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
 //            for (Tuplas auxTupla : auxTuplas) {
 //                cadenaTuplas = "(" + auxTupla.getIdProceso() + "," + auxTupla.getIdNumeroMensaje() + ")";
 //            }
-            comboMensajes.addItem(mensajesCreado.toString());
+            comboMensajes.addItem(mensajesCreado.toString()+auxTuplas+"}");
             System.out.println(mensajesCreado.toString()+auxTuplas+"}");
         }
-        
-        txtVector.setText(obtenerVector(d));
+        txtVector.setText(obtenerVector(procesoHilo.getVector()));
+        //txtVector.setText(obtenerVector(d));
         //auxMen=null;
     }//GEN-LAST:event_btnContruirActionPerformed
 
@@ -334,15 +326,11 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
     }
     
     public Mensaje contruirMensaje(){
-        procesoHilo.sumarVector(proceso);
+        //procesoHilo.sumarVector(proceso);
         String cad = txtMensaje.getText();
         
-//        ci.add(new Tuplas(proceso,procesoHilo.getVector()[proceso]));
-//        ci.add(new Tuplas(proceso,procesoHilo.getVector()[proceso]+1));
         hm=ci;
-//        for (Tuplas tuplas : ci) {
-//            System.out.println(tuplas);
-//        }
+
         Mensaje conMen = new Mensaje(proceso, procesoHilo.getVector()[proceso], cad, hm);
         txtMensaje.setText("");
         //System.out.println(mensajesCreados.toString()+","+ci);
@@ -383,24 +371,99 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         
     }
     public void entregar(Mensaje mensaje){
+        List<Tuplas> auxPoda=mensaje.getVector();
         int idProc = mensaje.getIdProceso();
         int numeroMen = mensaje.getNumeroMens();
-        String ciTex = "";
-//        ci.add(new Tuplas(idProc, numeroMen));
-//        for (Tuplas tuplas : ci) {
-//            ciTex = "(" + tuplas.getIdProceso() + "," + tuplas.getIdNumeroMensaje() + ")";
-//        }
+        //paso 3
+        procesoHilo.sumarVector(idProc);
+        txtVector.setText(obtenerVector(procesoHilo.getVector()));
+        //paso 4
+        for (int i = 0; i < ci.size(); i++) {
+            if(idProc==ci.get(i).getIdProceso()){
+                ci.remove(i);
+            }
+        }
+        ci.add(new Tuplas(idProc, numeroMen));
+        //List<Tuplas> cadCIText=ci;
+        
+        //paso 5
+        for (int i = 0; i < ci.size(); i++) {
+            for (int j = 0; j < auxPoda.size(); j++) {
+                if(ci.get(i).getIdProceso()==auxPoda.get(j).getIdProceso()
+                        &&ci.get(i).getIdNumeroMensaje()==auxPoda.get(j).getIdNumeroMensaje()){
+                    ci.remove(i);
+                }
+            }
+        }
+        txtCI.setText(ci.toString());
+
         String cadena = mensaje.getCad();
         List<Tuplas> vector = mensaje.getVector();
         System.out.println("mensaje recibido: " + idProc + ", " + numeroMen + ", " + cadena + ", " + vector);
         String cad = Integer.toString(idProc) + ", " + Integer.toString(numeroMen) + ", "
-                + cadena;
-        txtMenRec.append(cad + "\n");
+                + cadena+", ";
+        txtMenRec.append(cad + vector+ "\n");
+        if(buffer.size()!=0){
+           checar(); 
+        }
+        
     }
+    
+    private void esperar(Mensaje mensaje) {
+        System.out.println("entra");
+        txtBuffer.setText("");
+        buffer.add(mensaje);
+        for (Mensaje mensaje1 : buffer) {
+            List<Tuplas> vector = mensaje.getVector();
+            txtBuffer.append(mensaje1.toString() + vector+ "\n");
+        }
+    }
+    
+    private void checar(){
+        for (Mensaje mensaje : buffer) {
+            
+            List<Tuplas> checarCI = mensaje.getVector();
+            
+            if (mensaje.getNumeroMens() == procesoHilo.getVector()[mensaje.getIdProceso()] + 1) {
+                            //se obytienen valores del mensaje
+                            System.out.println(checarCI);
+                            if (checarCI.size()==0) {
+                                entregar(mensaje);
+                            } else if (checarCI.size() > 0) {
+                                int contador = 0;
+                                System.out.println("checa tublas");
+                                for (Tuplas tuplas : checarCI) {
+                                    if (tuplas.getIdNumeroMensaje() <= procesoHilo.getVector()[tuplas.getIdProceso()]) {
+                                        contador++;
+                                    }
+                                }
+                                if (contador == 0) {
+                                    entregar(mensaje);
+                                } else {
+                                    //esperar(mensaje);
+//                                    buffer.add(mensaje);
+//                                    for (Mensaje mensaje1 : buffer) {
+//                                        txtBuffer.append(mensaje1.toString() + "\n");
+//                                    }
+                                }
+                            } 
+                        }else {
+                                //esperar(mensaje);
+//                                buffer.add(mensaje);
+//                                for (Mensaje mensaje1 : buffer) {
+//                                    txtBuffer.append(mensaje1.toString() + "\n");
+//                                }
+
+                            }
+        }
+        
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnContruir;
     private javax.swing.JButton btnEnviar;
+    private javax.swing.JComboBox<String> cbxProceso;
     private javax.swing.JComboBox<String> comboMensajes;
     private javax.swing.JButton iniciarHilo;
     private javax.swing.JLabel jLabel1;
@@ -417,7 +480,6 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
     private javax.swing.JTextField txtCI;
     private javax.swing.JTextArea txtMenRec;
     private javax.swing.JTextField txtMensaje;
-    private javax.swing.JTextField txtProceso;
     private javax.swing.JTextField txtPuertoEnvio;
     private javax.swing.JTextField txtPuertoSeleccionado;
     private javax.swing.JTextField txtVector;
@@ -448,21 +510,40 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                     try {
                         //se obtiene el objeto del mensaje
                         mensaje = (Mensaje) is.readObject();
+                        List<Tuplas> checarCI = mensaje.getVector();
                         
                         
-                        
-                        if(mensaje.getNumeroMens()==procesoHilo.getVector()[mensaje.getIdProceso()]+1){
-                        //se obytienen valores del mensaje
-                        
-                            entregar(mensaje);
-                        }else{
-                            buffer.add(mensaje);
-                            for (Mensaje mensaje1 : buffer) {
-                                txtBuffer.append(mensaje1.toString()+"\n");
+                        if (mensaje.getNumeroMens() == procesoHilo.getVector()[mensaje.getIdProceso()] + 1) {
+                            //se obytienen valores del mensaje
+                            System.out.println(checarCI);
+                            if (checarCI.size()==0) {
+                                entregar(mensaje);
+                            } else if (checarCI.size() > 0) {
+                                int contador = checarCI.size();
+                                System.out.println("checa tublas");
+                                for (Tuplas tuplas : checarCI) {
+                                    if (tuplas.getIdNumeroMensaje() <= procesoHilo.getVector()[tuplas.getIdProceso()]) {
+                                        contador--;
+                                    }
+                                }
+                                if (contador == 0) {
+                                    entregar(mensaje);
+                                } else {
+                                    esperar(mensaje);
+//                                    buffer.add(mensaje);
+//                                    for (Mensaje mensaje1 : buffer) {
+//                                        txtBuffer.append(mensaje1.toString() + "\n");
+//                                    }
+                                }
+                            } 
+                        }else {
+                                esperar(mensaje);
+//                                buffer.add(mensaje);
+//                                for (Mensaje mensaje1 : buffer) {
+//                                    txtBuffer.append(mensaje1.toString() + "\n");
+//                                }
+
                             }
-                            
-                        }
-                        
                         
                         
                         
@@ -501,4 +582,6 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
             Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    
 }
