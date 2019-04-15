@@ -13,8 +13,8 @@ import java.io.Serializable;
  */
 public class Tuplas implements Serializable{
     
-    private int idProceso;
-    private int idNumeroMensaje;
+    private final int idProceso;
+    private final int idNumeroMensaje;
 
     public Tuplas(int idProceso, int idNumeroMensaje) {
         this.idProceso = idProceso;
@@ -25,16 +25,8 @@ public class Tuplas implements Serializable{
         return idProceso;
     }
 
-    public void setIdProceso(int idProceso) {
-        this.idProceso = idProceso;
-    }
-
     public int getIdNumeroMensaje() {
         return idNumeroMensaje;
-    }
-
-    public void setIdNumeroMensaje(int idNumeroMensaje) {
-        this.idNumeroMensaje = idNumeroMensaje;
     }
 
     @Override

@@ -323,19 +323,20 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
 
     private void btnContruirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContruirActionPerformed
         // TODO add your handling code here:
-        for (int i = 0; i < mensajesCreados.size(); i++) {
-            procesoHilo.agregarTupla(new Tuplas(1,1+i));
-        }
-        d[proceso]++;
+//        for (int i = 0; i < mensajesCreados.size(); i++) {
+//            procesoHilo.agregarTupla(new Tuplas(1,1+i));
+//        }
+        //d[proceso]++;
         procesoHilo.sumarVector(proceso);
-        mensajesCreados.add(contruirMensaje());
+        //mensajesCreados.add(contruirMensaje());
         String cadenaTuplas="";
         
         txtVector.setText(obtenerVector(procesoHilo.getVector()));
-        
+        Mensaje auxMen =procesoHilo.crearMensaje(cadenaTuplas);
+        mensajesCreados.add(auxMen);
         String vecString="";
-        
-        procesoHilo.limpiar();
+        comboMensajes.addItem(auxMen.toString());
+        this.procesoHilo.limpiar();
         txtCI.setText("");
     }//GEN-LAST:event_btnContruirActionPerformed
 
@@ -402,7 +403,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         String cad = txtMensaje.getText();
         
         List<Tuplas> hm=procesoHilo.getCiProceso();
-        System.out.println("mames"+hm);
+        System.out.println("mams"+hm);
         System.out.println(ci);
         Mensaje conMen = new Mensaje(proceso, procesoHilo.getVector()[proceso], cad, hm);
         List<Tuplas>tuplasMensajeCreado = conMen.getVector();
@@ -467,7 +468,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                 ci.remove(i);
             }
         }
-        ci.add(new Tuplas(idProc, numeroMen));
+        procesoHilo.agregarTupla(new Tuplas(idProc, numeroMen));
         //List<Tuplas> cadCIText=ci;
         
         //paso 5
@@ -479,7 +480,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                 }
             }
         }
-        txtCI.setText(ci.toString());
+        txtCI.setText(procesoHilo.getCiProceso().toString());
 
         String cadena = mensaje.getCad();
         List<Tuplas> vector = mensaje.getVector();
@@ -490,6 +491,8 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         txtMenRec.append(mensaje.toString()+ "\n");
         if(buffer.size()!=0){
            checar(); 
+        }else{
+            txtBuffer.setText("");
         }
         
     }

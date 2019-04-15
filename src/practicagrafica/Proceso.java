@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Proceso {
     
-    private int id;
+    private int id, cont;
     private List<Tuplas> ciProceso;
     private int puerto;
     private String Direccion;
@@ -50,7 +50,14 @@ public class Proceso {
         this.ciProceso = ciProceso;
     }
 
-    
+    public Mensaje crearMensaje(String cad){
+        
+        Mensaje men = new Mensaje(this.id, this.vector[this.id], cad, new ArrayList<>(ciProceso));
+        //this.limpiar();
+        return men;
+        
+    }
+            
     
     public void limpiar(){
         this.ciProceso.clear();
