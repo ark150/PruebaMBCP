@@ -37,6 +37,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
     List<Tuplas> ci,hm;
     List<Mensaje> mensajesCreados;
     List<Mensaje> buffer;
+    List<Proceso> procesoEnvios;
     public Pantalla() {
         initComponents();
         d= new int []{0,0,0,0,0,0};
@@ -46,6 +47,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         hm=  new ArrayList<>();
         mensajesCreados= new ArrayList<>();
         buffer= new ArrayList<>();
+        procesoEnvios= new ArrayList<>();
     }
     
     /**
@@ -79,6 +81,15 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         jScrollPane3 = new javax.swing.JScrollPane();
         txtBuffer = new javax.swing.JTextArea();
         cbxProceso = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        cbxProcesoVecino = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        txtIPVecino = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtPertoVecino = new javax.swing.JTextField();
+        btnAgregarProceso = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        cbxProcesoEnvio = new javax.swing.JComboBox<>();
 
         jLabel8.setText("jLabel8");
 
@@ -135,19 +146,41 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
 
         cbxProceso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
 
+        jLabel9.setText("Proceso");
+
+        cbxProcesoVecino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
+
+        jLabel10.setText("IP");
+
+        jLabel11.setText("Puerto");
+
+        btnAgregarProceso.setText("Agregar");
+        btnAgregarProceso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarProcesoActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setText("Proceso de envio");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(txtMensaje)
                         .addGap(254, 254, 254))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(btnEnviar)
                                     .addGap(36, 36, 36)
@@ -164,29 +197,49 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                                     .addComponent(txtPuertoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(38, 38, 38)
                                     .addComponent(iniciarHilo)))
-                            .addComponent(jLabel2))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnContruir)
-                            .addComponent(comboMensajes, 0, 349, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnContruir)
+                                .addComponent(comboMensajes, 0, 349, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addComponent(jLabel3)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtVector, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtCI, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane3)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnAgregarProceso)
+                                    .addComponent(jLabel7))
+                                .addGap(209, 209, 209))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtVector, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCI, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(198, 198, 198))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(44, 44, 44)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel11)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtPertoVecino, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel9)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(cbxProcesoVecino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(32, 32, 32)
+                                                .addComponent(jLabel10)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(txtIPVecino, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel12)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbxProcesoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(41, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,7 +250,11 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                     .addComponent(iniciarHilo)
                     .addComponent(jLabel5)
                     .addComponent(txtPuertoSeleccionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxProceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbxProceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(cbxProcesoVecino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtIPVecino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,22 +271,29 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                                 .addGap(18, 18, 18)
                                 .addComponent(comboMensajes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18))
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel11)
+                            .addComponent(txtPertoVecino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAgregarProceso)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel7)
-                        .addGap(35, 35, 35)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEnviar)
                     .addComponent(jLabel6)
-                    .addComponent(txtPuertoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPuertoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(cbxProcesoEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
 
@@ -242,9 +306,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         
         txtVector.setText(obtenerVector(procesoHilo.getVector()));
         enviarMensaje();
-        hm.clear();
-        ci.clear();
-        txtCI.setText("");
+        
 
     }//GEN-LAST:event_btnEnviarActionPerformed
 
@@ -271,17 +333,42 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         for (Mensaje mensajesCreado : mensajesCreados) {
             
             List<Tuplas> auxTuplas = mensajesCreado.getVector();
-            
+            System.out.println("prueba de escritorio");
+            for (int i = 0; i < auxTuplas.size(); i++) {
+                System.out.print(auxTuplas.get(i));
+                cadenaTuplas.concat(cadenaTuplas+auxTuplas.get(i));
+            }
+            System.out.println("prueba de escritorio2 :"+cadenaTuplas);
 //            for (Tuplas auxTupla : auxTuplas) {
 //                cadenaTuplas = "(" + auxTupla.getIdProceso() + "," + auxTupla.getIdNumeroMensaje() + ")";
 //            }
-            comboMensajes.addItem(mensajesCreado.toString()+auxTuplas+"}");
-            System.out.println(mensajesCreado.toString()+auxTuplas+"}");
+            comboMensajes.addItem(mensajesCreado.toString()+"}");
+            System.out.println(mensajesCreado.toString()+"}");
         }
         txtVector.setText(obtenerVector(procesoHilo.getVector()));
         //txtVector.setText(obtenerVector(d));
         //auxMen=null;
+        //List<Tuplas> auxTuplas = mensajesCreado.getVector();
+        String vecString="";
+        hm.clear();
+        ci.clear();
+        txtCI.setText("");
     }//GEN-LAST:event_btnContruirActionPerformed
+
+    private void btnAgregarProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProcesoActionPerformed
+        // TODO add your handling code here:
+        int puertoVecino= Integer.parseInt(txtPertoVecino.getText());
+        String direccion = txtIPVecino.getText();
+        int idProcesoVecino= Integer.parseInt((String) cbxProcesoVecino.getSelectedItem());
+        procesoEnvios.add(new Proceso(idProcesoVecino,puertoVecino, direccion));
+        txtPertoVecino.setText("");
+        txtIPVecino.setText("");
+        cbxProcesoEnvio.removeAllItems();
+        for (Proceso procesoEnvio : procesoEnvios) {
+            cbxProcesoEnvio.addItem(Integer.toString(procesoEnvio.getId()));
+        }
+        //cbxProcesoEnvio.addItem(direccion);
+    }//GEN-LAST:event_btnAgregarProcesoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -329,9 +416,9 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         //procesoHilo.sumarVector(proceso);
         String cad = txtMensaje.getText();
         
-        hm=ci;
+        //hm=ci;
 
-        Mensaje conMen = new Mensaje(proceso, procesoHilo.getVector()[proceso], cad, hm);
+        Mensaje conMen = new Mensaje(proceso, procesoHilo.getVector()[proceso], cad, ci);
         txtMensaje.setText("");
         //System.out.println(mensajesCreados.toString()+","+ci);
         return conMen;
@@ -345,6 +432,9 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
             Mensaje me ; 
             //Mensaje me2=(Mensaje)comboMensajes.getSelectedItem();;
             me= mensajesCreados.get(comboMensajes.getSelectedIndex()-1);
+            //Proceso Seleccionado
+            Proceso seleccionado;
+            seleccionado = procesoEnvios.get( cbxProcesoEnvio.getSelectedIndex());
             
             byte[] incoming = new byte[1024];
             // se ocupa los 2 elementos para poder mandar la clase
@@ -354,9 +444,11 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
             //se parsea el objeto a bytes para mandarlo
             byte[] data = outputstream.toByteArray();
             //byte [] m = cad.getBytes();
-            InetAddress aHost = InetAddress.getByName("localhost");
+            //InetAddress aHost = InetAddress.getByName("localhost");
+            InetAddress aHost = InetAddress.getByName(seleccionado.getDireccion());
             //int serverPort = 6789;
-            int serverPort=Integer.parseInt(txtPuertoEnvio.getText());
+//            int serverPort=Integer.parseInt(txtPuertoEnvio.getText());
+            int serverPort=seleccionado.getPuerto();
             //envio del objecto
             DatagramPacket sendPacket = new DatagramPacket(data, data.length, aHost, serverPort);
 
@@ -461,12 +553,18 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarProceso;
     private javax.swing.JButton btnContruir;
     private javax.swing.JButton btnEnviar;
     private javax.swing.JComboBox<String> cbxProceso;
+    private javax.swing.JComboBox<String> cbxProcesoEnvio;
+    private javax.swing.JComboBox<String> cbxProcesoVecino;
     private javax.swing.JComboBox<String> comboMensajes;
     private javax.swing.JButton iniciarHilo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -474,12 +572,15 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea txtBuffer;
     private javax.swing.JTextField txtCI;
+    private javax.swing.JTextField txtIPVecino;
     private javax.swing.JTextArea txtMenRec;
     private javax.swing.JTextField txtMensaje;
+    private javax.swing.JTextField txtPertoVecino;
     private javax.swing.JTextField txtPuertoEnvio;
     private javax.swing.JTextField txtPuertoSeleccionado;
     private javax.swing.JTextField txtVector;

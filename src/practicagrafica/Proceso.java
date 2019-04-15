@@ -16,6 +16,8 @@ public class Proceso {
     
     private int id;
     private List<Tuplas> ci;
+    private int puerto;
+    private String Direccion;
     private int []vector;
 
     public Proceso(int id) {
@@ -23,6 +25,14 @@ public class Proceso {
         this.ci= new ArrayList<Tuplas>();
         this.vector= new int []{0,0,0,0,0,0};
     }
+
+    public Proceso(int id, int puerto, String Direccion) {
+        this.id = id;
+        this.puerto = puerto;
+        this.Direccion = Direccion;
+    }
+    
+    
 
     public int getId() {
         return id;
@@ -51,5 +61,23 @@ public class Proceso {
     public void sumarVector(int id){
         this.vector[id]++;
     }
+
+    public int getPuerto() {
+        return puerto;
+    }
+
+    public void setPuerto(int puerto) {
+        this.puerto = puerto;
+    }
+
+    public String getDireccion() {
+        return Direccion;
+    }
+
+    public void setDireccion(String Direccion) {
+        this.Direccion = Direccion;
+    }
+    
+    
     
 }

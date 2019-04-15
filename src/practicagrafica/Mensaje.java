@@ -63,7 +63,8 @@ public class Mensaje implements Serializable{
 //        if(vector.size()==0){
 //            return "Mensaje{" + idProceso + ", " + numeroMens + ", M=" + cad + ", Hm=" + 0 + '}';
 //        }else{
-        return "Mensaje{" + idProceso + ", " + numeroMens + ", M" + cad + ", Hm=" ;
+        
+        return "Mensaje{" + idProceso + ", " + numeroMens + ", M" + cad + ", Hm= "+vector ;
         //}
     }
     
