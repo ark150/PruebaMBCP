@@ -34,7 +34,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
     UDPServerConHilo udph;
     Thread hilo;
     int contadorMen;
-    List<Tuplas> ci,hm;
+    List<Tuplas> ci;
     List<Mensaje> mensajesCreados;
     List<Mensaje> buffer;
     List<Proceso> procesoEnvios;
@@ -44,7 +44,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         txtVector.setText(obtenerVector(d));
         contadorMen=0;
         ci=  new ArrayList<>();
-        hm=  new ArrayList<>();
+        //hm=  new ArrayList<>();
         mensajesCreados= new ArrayList<>();
         buffer= new ArrayList<>();
         procesoEnvios= new ArrayList<>();
@@ -323,35 +323,19 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
 
     private void btnContruirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContruirActionPerformed
         // TODO add your handling code here:
-        //Mensaje auxMen=contruirMensaje();
-        comboMensajes.removeAllItems();
-        comboMensajes.addItem("Seleccione un mensaje");
+        for (int i = 0; i < mensajesCreados.size(); i++) {
+            procesoHilo.agregarTupla(new Tuplas(1,1+i));
+        }
         d[proceso]++;
         procesoHilo.sumarVector(proceso);
         mensajesCreados.add(contruirMensaje());
         String cadenaTuplas="";
-        for (Mensaje mensajesCreado : mensajesCreados) {
-            
-            List<Tuplas> auxTuplas = mensajesCreado.getVector();
-            System.out.println("prueba de escritorio");
-            for (int i = 0; i < auxTuplas.size(); i++) {
-                System.out.print(auxTuplas.get(i));
-                cadenaTuplas.concat(cadenaTuplas+auxTuplas.get(i));
-            }
-            System.out.println("prueba de escritorio2 :"+cadenaTuplas);
-//            for (Tuplas auxTupla : auxTuplas) {
-//                cadenaTuplas = "(" + auxTupla.getIdProceso() + "," + auxTupla.getIdNumeroMensaje() + ")";
-//            }
-            comboMensajes.addItem(mensajesCreado.toString()+"}");
-            System.out.println(mensajesCreado.toString()+"}");
-        }
+        
         txtVector.setText(obtenerVector(procesoHilo.getVector()));
-        //txtVector.setText(obtenerVector(d));
-        //auxMen=null;
-        //List<Tuplas> auxTuplas = mensajesCreado.getVector();
+        
         String vecString="";
-        hm.clear();
-        ci.clear();
+        
+        procesoHilo.limpiar();
         txtCI.setText("");
     }//GEN-LAST:event_btnContruirActionPerformed
 
@@ -414,14 +398,21 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
     
     public Mensaje contruirMensaje(){
         //procesoHilo.sumarVector(proceso);
+        
         String cad = txtMensaje.getText();
         
-        //hm=ci;
-
-        Mensaje conMen = new Mensaje(proceso, procesoHilo.getVector()[proceso], cad, ci);
+        List<Tuplas> hm=procesoHilo.getCiProceso();
+        System.out.println("mames"+hm);
+        System.out.println(ci);
+        Mensaje conMen = new Mensaje(proceso, procesoHilo.getVector()[proceso], cad, hm);
+        List<Tuplas>tuplasMensajeCreado = conMen.getVector();
+        System.out.println(conMen.toString());
         txtMensaje.setText("");
+        comboMensajes.addItem(conMen.toString());
         //System.out.println(mensajesCreados.toString()+","+ci);
+        
         return conMen;
+        
     }
     
     public void enviarMensaje(){
@@ -433,6 +424,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
             //Mensaje me2=(Mensaje)comboMensajes.getSelectedItem();;
             me= mensajesCreados.get(comboMensajes.getSelectedIndex()-1);
             //Proceso Seleccionado
+            System.out.println("Mensaje envia: "+me);
             Proceso seleccionado;
             seleccionado = procesoEnvios.get( cbxProcesoEnvio.getSelectedIndex());
             
@@ -492,9 +484,10 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         String cadena = mensaje.getCad();
         List<Tuplas> vector = mensaje.getVector();
         System.out.println("mensaje recibido: " + idProc + ", " + numeroMen + ", " + cadena + ", " + vector);
+        System.out.println(mensaje.toString());
         String cad = Integer.toString(idProc) + ", " + Integer.toString(numeroMen) + ", "
                 + cadena+", ";
-        txtMenRec.append(cad + vector+ "\n");
+        txtMenRec.append(mensaje.toString()+ "\n");
         if(buffer.size()!=0){
            checar(); 
         }
@@ -612,7 +605,8 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                         //se obtiene el objeto del mensaje
                         mensaje = (Mensaje) is.readObject();
                         List<Tuplas> checarCI = mensaje.getVector();
-                        
+                        System.out.println("Mensaje recibido en buffer"+mensaje.toString());
+                        System.out.println("ER: "+ checarCI);
                         
                         if (mensaje.getNumeroMens() == procesoHilo.getVector()[mensaje.getIdProceso()] + 1) {
                             //se obytienen valores del mensaje

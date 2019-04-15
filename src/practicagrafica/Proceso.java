@@ -15,14 +15,14 @@ import java.util.List;
 public class Proceso {
     
     private int id;
-    private List<Tuplas> ci;
+    private List<Tuplas> ciProceso;
     private int puerto;
     private String Direccion;
     private int []vector;
 
     public Proceso(int id) {
         this.id = id;
-        this.ci= new ArrayList<Tuplas>();
+        this.ciProceso= new ArrayList<Tuplas>();
         this.vector= new int []{0,0,0,0,0,0};
     }
 
@@ -42,12 +42,21 @@ public class Proceso {
         this.id = id;
     }
 
-    public List<Tuplas> getCi() {
-        return ci;
+    public List<Tuplas> getCiProceso() {
+        return ciProceso;
     }
 
-    public void setCi(List<Tuplas> ci) {
-        this.ci = ci;
+    public void setCiProceso(List<Tuplas> ciProceso) {
+        this.ciProceso = ciProceso;
+    }
+
+    public void agregarTupla(Tuplas tupla){
+        this.ciProceso.add(tupla);
+    }
+    
+    public void limpiar(){
+        this.ciProceso=null;
+        //this.ciProceso.clear();
     }
 
     public int[] getVector() {
