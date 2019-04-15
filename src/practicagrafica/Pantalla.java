@@ -48,6 +48,8 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         mensajesCreados= new ArrayList<>();
         buffer= new ArrayList<>();
         procesoEnvios= new ArrayList<>();
+
+        this.setVisible(true);
     }
     
     /**
