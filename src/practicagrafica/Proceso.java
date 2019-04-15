@@ -53,7 +53,7 @@ public class Proceso {
     
     
     public void limpiar(){
-        this.ciProceso=null;
+        this.ciProceso.clear();
         //this.ciProceso.clear();
     }
 
