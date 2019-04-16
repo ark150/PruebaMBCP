@@ -358,6 +358,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
 
     private void btnReinicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReinicoActionPerformed
         // TODO add your handling code here:
+        buffer.clear();
         mensajesCreados.clear();
         txtVector.setText(obtenerVector(d));
         procesoHilo.reinicio();
