@@ -48,6 +48,8 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         mensajesCreados= new ArrayList<>();
         buffer= new ArrayList<>();
         procesoEnvios= new ArrayList<>();
+
+        this.setVisible(true);
     }
     
     /**
@@ -335,7 +337,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         
         String vecString="";
         
-        procesoHilo.limpiar();
+        // procesoHilo.limpiar();
         txtCI.setText("");
     }//GEN-LAST:event_btnContruirActionPerformed
 
@@ -404,6 +406,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         List<Tuplas> hm=procesoHilo.getCiProceso();
         System.out.println("mames"+hm);
         System.out.println(ci);
+        procesoHilo.limpiar();
         Mensaje conMen = new Mensaje(proceso, procesoHilo.getVector()[proceso], cad, hm);
         List<Tuplas>tuplasMensajeCreado = conMen.getVector();
         System.out.println(conMen.toString());
@@ -412,7 +415,6 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         //System.out.println(mensajesCreados.toString()+","+ci);
         
         return conMen;
-        
     }
     
     public void enviarMensaje(){
