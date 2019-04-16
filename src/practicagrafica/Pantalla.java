@@ -92,6 +92,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         btnAgregarProceso = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         cbxProcesoEnvio = new javax.swing.JComboBox<>();
+        btnReinicio = new javax.swing.JButton();
 
         jLabel8.setText("jLabel8");
 
@@ -165,6 +166,13 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
 
         jLabel12.setText("Proceso de envio");
 
+        btnReinicio.setText("Reinicio");
+        btnReinicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReinicioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,18 +208,22 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                                     .addGap(38, 38, 38)
                                     .addComponent(iniciarHilo)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnContruir)
                                 .addComponent(comboMensajes, 0, 349, Short.MAX_VALUE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(10, 10, 10)
-                                    .addComponent(jLabel3)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtVector, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtCI, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane3)))
+                                .addComponent(jScrollPane3)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnContruir)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnReinicio))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtVector, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtCI, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -269,7 +281,9 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                                     .addComponent(txtCI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(104, 104, 104)
-                                .addComponent(btnContruir)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnContruir)
+                                    .addComponent(btnReinicio))
                                 .addGap(18, 18, 18)
                                 .addComponent(comboMensajes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -358,6 +372,20 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         }
         //cbxProcesoEnvio.addItem(direccion);
     }//GEN-LAST:event_btnAgregarProcesoActionPerformed
+
+    private void btnReinicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReinicioActionPerformed
+        // TODO add your handling code here:
+        buffer.clear();
+        mensajesCreados.clear();
+        txtVector.setText(obtenerVector(d));
+        procesoHilo.reinicio();
+        comboMensajes.removeAllItems();
+        comboMensajes.addItem("Seleccione un mensaje");
+        txtMenRec.setText("");
+        txtBuffer.setText("");
+        //this.procesoHilo.limpiar();
+        txtCI.setText("");
+    }//GEN-LAST:event_btnReinicioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -574,6 +602,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
     private javax.swing.JButton btnAgregarProceso;
     private javax.swing.JButton btnContruir;
     private javax.swing.JButton btnEnviar;
+    private javax.swing.JButton btnReinicio;
     private javax.swing.JComboBox<String> cbxProceso;
     private javax.swing.JComboBox<String> cbxProcesoEnvio;
     private javax.swing.JComboBox<String> cbxProcesoVecino;

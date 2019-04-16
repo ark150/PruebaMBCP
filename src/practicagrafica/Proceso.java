@@ -58,6 +58,11 @@ public class Proceso {
         
     }
     
+    public void reinicio(){
+        this.vector= new int []{0,0,0,0,0,0};
+        this.ciProceso.clear();
+    }
+    
     public void retirar(int numeroTupla){
         this.ciProceso.remove(numeroTupla);
     }
