@@ -32,6 +32,10 @@ public class Proceso {
         this.Direccion = Direccion;
     }
     
+    public void reinicio(){
+        this.vector= new int []{0,0,0,0,0,0};
+        this.ciProceso.clear();
+    }
     
 
     public int getId() {
