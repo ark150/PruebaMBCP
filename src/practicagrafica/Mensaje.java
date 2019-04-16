@@ -64,7 +64,7 @@ public class Mensaje implements Serializable{
 //            return "Mensaje{" + idProceso + ", " + numeroMens + ", M=" + cad + ", Hm=" + 0 + '}';
 //        }else{
         
-        return "Mensaje{" + idProceso + ", " + numeroMens + ", M" + cad + ", Hm= "+vector ;
+        return "Mensaje{" + idProceso + ", " + numeroMens + ", " + cad + ", Hm= "+vector ;
         //}
     }
     

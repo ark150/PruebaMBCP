@@ -329,7 +329,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         //d[proceso]++;
         procesoHilo.sumarVector(proceso);
         //mensajesCreados.add(contruirMensaje());
-        String cadenaTuplas="";
+        String cadenaTuplas=txtMensaje.getText();
         
         txtVector.setText(obtenerVector(procesoHilo.getVector()));
         Mensaje auxMen =procesoHilo.crearMensaje(cadenaTuplas);
