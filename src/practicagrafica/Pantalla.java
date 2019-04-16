@@ -507,8 +507,8 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         txtBuffer.setText("");
         buffer.add(mensaje);
         for (Mensaje mensaje1 : buffer) {
-            List<Tuplas> vector = mensaje.getVector();
-            txtBuffer.append(mensaje1.toString() + vector+ "\n");
+            //List<Tuplas> vector = mensaje.getVector();
+            txtBuffer.append(mensaje1.toString()+  "\n");
         }
     }
     
@@ -523,11 +523,11 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
                     buffer.remove(i);
                     entregar(auxMen1);
                 } else if (checarCI.size() > 0) {
-                    int contador = 0;
+                    int contador = checarCI.size();
                     System.out.println("checa tublas");
                     for (Tuplas tuplas : checarCI) {
                         if (tuplas.getIdNumeroMensaje() <= procesoHilo.getVector()[tuplas.getIdProceso()]) {
-                            contador++;
+                            contador--;
                         }
                     }
                     if (contador == 0) {
