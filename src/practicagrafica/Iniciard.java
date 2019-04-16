@@ -1,9 +1,9 @@
 package practicagrafica;
 
 /**
- * Iniciod
+ * Iniciard
  */
-public class Iniciod {
+public class Iniciard {
 
     public static void main(String[] args) {
         new Pantalla();
