@@ -48,7 +48,7 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         mensajesCreados= new ArrayList<>();
         buffer= new ArrayList<>();
         procesoEnvios= new ArrayList<>();
-
+        txtMensaje.setText("Lorem String");
         this.setVisible(true);
     }
     
@@ -340,6 +340,8 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         comboMensajes.addItem(auxMen.toString());
         this.procesoHilo.limpiar();
         txtCI.setText("");
+        txtMensaje.setText("");
+        txtMensaje.setText("Lorem String");
     }//GEN-LAST:event_btnContruirActionPerformed
 
     private void btnAgregarProcesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProcesoActionPerformed
