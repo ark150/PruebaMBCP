@@ -57,6 +57,10 @@ public class Proceso {
         return men;
         
     }
+    
+    public void retirar(int numeroTupla){
+        this.ciProceso.remove(numeroTupla);
+    }
             
     
     public void limpiar(){

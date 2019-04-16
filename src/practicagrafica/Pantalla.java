@@ -146,11 +146,11 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         txtBuffer.setRows(5);
         jScrollPane3.setViewportView(txtBuffer);
 
-        cbxProceso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
+        cbxProceso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
 
         jLabel9.setText("Proceso");
 
-        cbxProcesoVecino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
+        cbxProcesoVecino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
 
         jLabel10.setText("IP");
 
@@ -465,20 +465,21 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
         procesoHilo.sumarVector(idProc);
         txtVector.setText(obtenerVector(procesoHilo.getVector()));
         //paso 4
-        for (int i = 0; i < ci.size(); i++) {
-            if(idProc==ci.get(i).getIdProceso()){
-                ci.remove(i);
+        for (int i = 0; i < procesoHilo.getCiProceso().size(); i++) {
+            if(idProc==procesoHilo.getCiProceso().get(i).getIdProceso()){
+                procesoHilo.retirar(i);
+                //ci.remove(i);
             }
         }
         procesoHilo.agregarTupla(new Tuplas(idProc, numeroMen));
         //List<Tuplas> cadCIText=ci;
         
         //paso 5
-        for (int i = 0; i < ci.size(); i++) {
+        for (int i = 0; i < procesoHilo.getCiProceso().size(); i++) {
             for (int j = 0; j < auxPoda.size(); j++) {
-                if(ci.get(i).getIdProceso()==auxPoda.get(j).getIdProceso()
-                        &&ci.get(i).getIdNumeroMensaje()==auxPoda.get(j).getIdNumeroMensaje()){
-                    ci.remove(i);
+                if(procesoHilo.getCiProceso().get(i).getIdProceso()==auxPoda.get(j).getIdProceso()
+                        &&procesoHilo.getCiProceso().get(i).getIdNumeroMensaje()==auxPoda.get(j).getIdNumeroMensaje()){
+                    procesoHilo.retirar(i);
                 }
             }
         }
@@ -510,43 +511,60 @@ public class Pantalla extends javax.swing.JFrame  implements Runnable{
     }
     
     private void checar(){
-        for (Mensaje mensaje : buffer) {
-            
-            List<Tuplas> checarCI = mensaje.getVector();
-            
-            if (mensaje.getNumeroMens() == procesoHilo.getVector()[mensaje.getIdProceso()] + 1) {
-                            //se obytienen valores del mensaje
-                            System.out.println(checarCI);
-                            if (checarCI.size()==0) {
-                                entregar(mensaje);
-                            } else if (checarCI.size() > 0) {
-                                int contador = 0;
-                                System.out.println("checa tublas");
-                                for (Tuplas tuplas : checarCI) {
-                                    if (tuplas.getIdNumeroMensaje() <= procesoHilo.getVector()[tuplas.getIdProceso()]) {
-                                        contador++;
-                                    }
-                                }
-                                if (contador == 0) {
-                                    entregar(mensaje);
-                                } else {
-                                    //esperar(mensaje);
-//                                    buffer.add(mensaje);
-//                                    for (Mensaje mensaje1 : buffer) {
-//                                        txtBuffer.append(mensaje1.toString() + "\n");
-//                                    }
-                                }
-                            } 
-                        }else {
-                                //esperar(mensaje);
-//                                buffer.add(mensaje);
-//                                for (Mensaje mensaje1 : buffer) {
-//                                    txtBuffer.append(mensaje1.toString() + "\n");
-//                                }
+        for (int i = 0; i < buffer.size(); i++) {
+            Mensaje auxMen1 = buffer.get(i);
+            List<Tuplas> checarCI = auxMen1.getVector();
+            if (auxMen1.getNumeroMens() == procesoHilo.getVector()[auxMen1.getIdProceso()] + 1) {
+                //se obytienen valores del mensaje
+                System.out.println(checarCI);
+                if (checarCI.size() == 0) {
+                    buffer.remove(i);
+                    entregar(auxMen1);
+                } else if (checarCI.size() > 0) {
+                    int contador = 0;
+                    System.out.println("checa tublas");
+                    for (Tuplas tuplas : checarCI) {
+                        if (tuplas.getIdNumeroMensaje() <= procesoHilo.getVector()[tuplas.getIdProceso()]) {
+                            contador++;
+                        }
+                    }
+                    if (contador == 0) {
+                        buffer.remove(i);
+                        entregar(auxMen1);
+                    } else {
 
-                            }
+                    }
+                }
+            } else {
+
+            }
         }
-        
+//        for (Mensaje mensaje : buffer) {
+//            List<Tuplas> checarCI = mensaje.getVector();
+//            if (mensaje.getNumeroMens() == procesoHilo.getVector()[mensaje.getIdProceso()] + 1) {
+//                //se obytienen valores del mensaje
+//                System.out.println(checarCI);
+//                if (checarCI.size() == 0) {
+//                    entregar(mensaje);
+//                } else if (checarCI.size() > 0) {
+//                    int contador = 0;
+//                    System.out.println("checa tublas");
+//                    for (Tuplas tuplas : checarCI) {
+//                        if (tuplas.getIdNumeroMensaje() <= procesoHilo.getVector()[tuplas.getIdProceso()]) {
+//                            contador++;
+//                        }
+//                    }
+//                    if (contador == 0) {
+//                        entregar(mensaje);
+//                    } else {
+//
+//                    }
+//                }
+//            } else {
+//
+//            }
+//        }
+
     }
     
 
